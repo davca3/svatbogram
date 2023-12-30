@@ -1,16 +1,19 @@
+'use client'
+
 import Image from 'next/image'
 import styles from './page.module.scss'
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import ResponsiveAppBar from '@/components/navigation';
+import Navigation from '@/components/navigation';
 import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-
+import { styled } from '@mui/system';
+import UploadBtn from '@/components/uploadBtn';
 
 export default function Home() {
   return (
     <main>
-      <ResponsiveAppBar />
+      <Navigation />
       {/* <ImageList
         sx={{ width: 500, height: 450 }}
         variant="quilted"
@@ -27,9 +30,7 @@ export default function Home() {
           </ImageListItem>
         ))}
       </ImageList> */}
-      <Fab color="primary" aria-label="add">
-        <AddIcon />
-      </Fab>
+      <UploadBtn />
     </main>
   )
 }
