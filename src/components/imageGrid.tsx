@@ -1,35 +1,35 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { ImageList, ImageListItem } from "@mui/material"
-import { ref, listAll } from "firebase/storage";
+import { ref, listAll, getDownloadURL } from "firebase/storage";
 import { storage } from "../../config";
 
 export default function ImageGrid() {
-
-    const itemData = () => {
-        // Create a reference under which you want to list
-        const listRef = ref(storage, '');
-
-        // Find all the prefixes and items.
-        listAll(listRef)
-            .then((res) => {
-                return res.items;
-            }).catch((error) => {
-                // Uh-oh, an error occurred!
-            });
-    }
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
-        console.log(itemData());
-    })
+        const fetchImages = async () => {
+            const listRef = ref(storage, '');
+
+            try {
+                const res = await listAll(listRef);
+                const imageUrls: any = await Promise.all(res.items.map(item => getDownloadURL(item)));
+                setImages(imageUrls);
+            } catch (error) {
+                // Handle error
+            }
+        }
+
+        fetchImages();
+    }, []);
 
     return (
         <ImageList variant="masonry" cols={3} gap={8}>
-            {Array.isArray(itemData) && itemData.map((item: any) => (
-                <ImageListItem key={item.img}>
+            {Array.isArray(images) && images.map((url: string, index: number) => (
+                <ImageListItem key={index}>
                     <img
-                        srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                        src={`${item.img}?w=248&fit=crop&auto=format`}
-                        alt={item.title}
+                        srcSet={url}
+                        src={url}
+                        alt={'photo'}
                         loading="lazy"
                     />
                 </ImageListItem>
