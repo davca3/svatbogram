@@ -98,7 +98,7 @@ a {
 }
 
 .add-button {
-	position: absolute;
-	bottom: 1rem;
-	right: 1rem;
+	position: absolute !important;
+	bottom: 1rem !important;
+	right: 1rem !important;
 }
