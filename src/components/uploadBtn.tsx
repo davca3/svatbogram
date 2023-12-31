@@ -5,6 +5,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { styled } from "@mui/system";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../config";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -25,11 +27,17 @@ export default function UploadBtn() {
     //     <VisuallyHiddenInput type="file" />
     // </Fab>
     const handleUpload = (event: any) => {
+        const storageRef = ref(storage, self.crypto.randomUUID());
         const files = event.target.files;
-        if (files.length > 0) {
-
-        }
         console.log(files);
+        if (files.length > 0) {
+            uploadBytes(storageRef, files[0])
+                .then((snapshot) => {
+                    // console.log(snapshot);
+                }).catch((err) => {
+                    console.error(err);
+                });
+        }
     }
 
     return (
