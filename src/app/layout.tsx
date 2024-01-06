@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
-import { Inter, Roboto } from 'next/font/google'
+import { Inter, Roboto, Sacramento } from 'next/font/google'
 import './globals.scss'
 
 const inter = Inter({ subsets: ['latin'] });
+const sacramento = Sacramento({ subsets: ['latin'], weight: "400" });
 
 export const metadata: Metadata = {
   title: 'Svatbogram',
@@ -16,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} ${sacramento.className}`}>{children}</body>
     </html>
   )
 }

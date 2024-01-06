@@ -1,12 +1,12 @@
 'use client'
 
-import { Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { styled } from "@mui/system";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../config";
+
+import { createClient } from '@supabase/supabase-js'
+import { supabase } from "@/lib/api";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -26,18 +26,20 @@ export default function UploadBtn() {
     //     <AddIcon />
     //     <VisuallyHiddenInput type="file" />
     // </Fab>
-    const handleUpload = (event: any) => {
-        const storageRef = ref(storage, self.crypto.randomUUID());
-        const files = event.target.files;
-        console.log(files);
-        if (files.length > 0) {
-            uploadBytes(storageRef, files[0])
-                .then((snapshot) => {
-                    // console.log(snapshot);
-                }).catch((err) => {
-                    console.error(err);
-                });
+
+    // Upload file using standard upload
+    async function uploadFile(file: any) {
+        const { data, error } = await supabase.storage.from('images').upload(self.crypto.randomUUID(), file)
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('success');
         }
+    }
+
+    const handleUpload = (event: any) => {
+        // Create a single supabase client for interacting with your database
+        uploadFile(event.target.files[0]);
     }
 
     return (
@@ -46,7 +48,7 @@ export default function UploadBtn() {
             variant="contained" 
             startIcon={<AddIcon />}
             className='add-button'>
-            Upload file
+            Nahrát fotku
             <VisuallyHiddenInput 
                 type="file" 
                 onChange={handleUpload} />
