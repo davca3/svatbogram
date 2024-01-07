@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from "react"
+import React, { ReactPropTypes, useEffect, useState } from "react"
 import { ImageList, ImageListItem, Dialog, DialogContent } from "@mui/material"
 import { supabase } from "@/lib/api";
 import Image from "next/image";
 
-type responseImage = {
-    url: string;
-    mimetype: string;
+import { ImageType } from "@/lib/types";
+
+type ImageGridProps = {
+    images: ImageType[],
+    addImage: (image: ImageType) => void
 }
 
-export default function ImageGrid() {
-    const [images, setImages] = useState([]);
+const isVideo = (file: ImageType | null): boolean => (file && file?.mimetype?.includes('video')) || false;
+
+export default function ImageGrid({images, addImage}: ImageGridProps) {
     const [error, setError] = useState<string | null>(null);
     const [open, setOpen] = useState<boolean>(false);
-    const [selectedImage, setSelectedImage] = useState<responseImage | null>(null);
+    const [selectedImage, setSelectedImage] = useState<ImageType | null>(null);
 
     useEffect(() => {
         (async () => {
@@ -23,18 +26,18 @@ export default function ImageGrid() {
                 setError(error);
                 console.error(error);
             } else {
-                const images = data.map((image: any) => {
-                    return {
-                        url: supabase.storage.from('images').getPublicUrl(image.name).data.publicUrl,
-                        mimetype: image.metadata.mimetype
-                    }
+                data.map((image: any) => {
+                    const imageObject: ImageType = { 
+                        url: supabase.storage.from('images').getPublicUrl(image.name).data.publicUrl, 
+                        mimetype: image.metadata.mimetype 
+                    };
+                    addImage(imageObject);
                 });
-                setImages(images);
             }
         })();
     }, []);
 
-    const handleClickOpen = (image: responseImage) => {
+    const handleClickOpen = (image: ImageType) => {
         setSelectedImage(image);
         setOpen(true);
     };
@@ -50,12 +53,12 @@ export default function ImageGrid() {
     return (
         <div>
             <ImageList cols={3} gap={8} rowHeight={200}>
-                {Array.isArray(images) && images.map((image: responseImage, index: number) => (
+                {Array.isArray(images) && images.map((image: ImageType, index: number) => (
                     <ImageListItem
                         key={index}
                         onClick={() => handleClickOpen(image)}>
                         {
-                            image.mimetype.includes('video') ?
+                            isVideo(image) ?
                                 <video
                                     src={image.url + "#t=0.1"}
                                     preload="metadata"
@@ -84,32 +87,34 @@ export default function ImageGrid() {
             <Dialog open={open} onClose={handleClose}>
                 <DialogContent>
                     {
-                        selectedImage && selectedImage.mimetype.includes('video') ? 
-                        <video
-                            src={selectedImage.url}
-                            autoPlay
-                            muted
-                            playsInline
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                maxHeight: '90vh',
-                                maxWidth: '90vw',
-                                objectFit: 'cover',
-                            }}
-                            controls
-                        ></video>
-                        : <img
-                            src={selectedImage ? selectedImage.url : ''}
-                            alt="Selected"
-                            style={{
-                                objectFit: 'contain', // cover, contain, none
-                                maxHeight: '90vh',
-                                maxWidth: '90vw',
-                                width: '100%',
-                                height: '100%',
-                            }}
-                        />
+                        selectedImage && (
+                        isVideo(selectedImage) ? 
+                            <video
+                                src={selectedImage.url + "#t=0.1"}
+                                autoPlay
+                                muted
+                                playsInline
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    maxHeight: '90vh',
+                                    maxWidth: '90vw',
+                                    objectFit: 'cover',
+                                }}
+                                controls
+                            ></video>
+                            : <img
+                                src={selectedImage.url}
+                                alt="Selected"
+                                style={{
+                                    objectFit: 'contain', // cover, contain, none
+                                    maxHeight: '90vh',
+                                    maxWidth: '90vw',
+                                    width: '100%',
+                                    height: '100%',
+                                }}
+                            />
+                        )
                     }
                 </DialogContent>
             </Dialog>
