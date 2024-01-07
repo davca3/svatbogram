@@ -1,5 +1,8 @@
 ## TODOLIST
 ```
+⚪️ Implement TailwindCSS
+⚪️ Disable dark mode
+⚪️ Disable Heic upload on frontend (backend is already done)
 ⚪️ Somewhat optimize images and videos
 ⚪️ Add/Create favicon
 ⚪️ Multiple file upload
