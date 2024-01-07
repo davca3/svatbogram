@@ -1,3 +1,12 @@
+## TODOLIST
+⚪️ Multiple file upload
+⚪️ Selecting multiple files and ability to download them
+⚪️ Download all files
+⚪️ GOD MODE (admin panel) - Delete files and other stuff
+⚪️ Next/Prev buttons for files
+⚪️ Infinite scroll and lower the amount of files loaded at once
+⚪️ Sharing option?
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
