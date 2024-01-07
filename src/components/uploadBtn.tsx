@@ -21,12 +21,6 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 export default function UploadBtn() {
-
-    // <Fab color="primary" aria-label="add" className='add-button'>
-    //     <AddIcon />
-    //     <VisuallyHiddenInput type="file" />
-    // </Fab>
-
     // Upload file using standard upload
     async function uploadFile(file: any) {
         const { data, error } = await supabase.storage.from('images').upload(self.crypto.randomUUID(), file)
@@ -43,12 +37,12 @@ export default function UploadBtn() {
     }
 
     return (
-        <Button 
+        <Button
             component="label" 
             variant="contained" 
             startIcon={<AddIcon />}
             className='add-button'>
-            Nahrát fotku
+            Přidat
             <VisuallyHiddenInput 
                 type="file" 
                 onChange={handleUpload} />

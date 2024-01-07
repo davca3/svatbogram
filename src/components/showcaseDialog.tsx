@@ -2,6 +2,8 @@ import React from 'react';
 import { ImageType } from '@/lib/types';
 import { Dialog, DialogContent } from '@mui/material';
 import { isVideo } from '@/lib/helpers';
+import { IconButton, Button } from '@mui/material';
+import { Close, Download } from '@mui/icons-material';
 
 type ShowcaseDialogProps = {
     openedImage: ImageType | null,
@@ -12,7 +14,33 @@ export default function ShowcaseDialog({ openedImage, handleClose }: ShowcaseDia
 
     return (
         <Dialog open={openedImage !== null} onClose={handleClose}>
-            <DialogContent>
+            <Button
+                aria-label="stáhnout"
+                href={openedImage?.url + "?download"}
+                size='large'
+                color='primary'
+                sx={{
+                    position: 'absolute',
+                    left: 10,
+                    top: 12
+                }}>
+                    <Download />
+                    Stáhnout
+            </Button>
+            <IconButton
+                aria-label="zavřít"
+                onClick={handleClose}
+                size='large'
+                color='primary'
+                sx={{
+                    position: 'absolute',
+                    right: 10,
+                    top: 8
+                }}
+            >
+                <Close />
+            </IconButton>
+            <DialogContent style={{marginTop:'40px'}}>
                 {
                     openedImage && (
                     isVideo(openedImage) ?
@@ -24,7 +52,7 @@ export default function ShowcaseDialog({ openedImage, handleClose }: ShowcaseDia
                             style={{
                                 width: '100%',
                                 height: '100%',
-                                maxHeight: '90vh',
+                                maxHeight: '80vh',
                                 maxWidth: '90vw',
                                 objectFit: 'cover',
                             }}
@@ -32,7 +60,7 @@ export default function ShowcaseDialog({ openedImage, handleClose }: ShowcaseDia
                         ></video>
                         : <img
                             src={openedImage.url}
-                            alt="Selected"
+                            alt="Selected Image"
                             style={{
                                 objectFit: 'contain', // cover, contain, none
                                 maxHeight: '90vh',

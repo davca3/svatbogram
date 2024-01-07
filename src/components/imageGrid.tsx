@@ -28,7 +28,8 @@ export default function ImageGrid({images, addImage, showcaseOpen}: ImageGridPro
                 data.map((image: any) => {
                     const imageObject: ImageType = { 
                         url: supabase.storage.from('images').getPublicUrl(image.name).data.publicUrl, 
-                        mimetype: image.metadata.mimetype 
+                        mimetype: image.metadata.mimetype,
+                        name: image.name,
                     };
                     addImage(imageObject);
                 });
