@@ -21,7 +21,7 @@ export function reducer(state: State, action: Action): State {
             if (imageExists) {
                 return state;
             } else {
-                return { ...state, images: [...state.images, action.image] };
+                return { ...state, images: [action.image, ...state.images] };
             }
         case 'toggleShowcase':
             return { ...state, showcaseOpen: action.showcaseOpen };

@@ -1,12 +1,12 @@
 'use client'
 
+import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { styled } from "@mui/system";
 import Button from "@mui/material/Button";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-
-import { createClient } from '@supabase/supabase-js'
-import { supabase } from "@/lib/api";
+import { uploadFile } from "@/lib/helpers";
+import { ImageType } from "@/lib/types";
+import { CircularProgress } from "@mui/material";
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -20,29 +20,35 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-export default function UploadBtn() {
-    // Upload file using standard upload
-    async function uploadFile(file: any) {
-        const { data, error } = await supabase.storage.from('images').upload(self.crypto.randomUUID(), file)
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('success');
-        }
-    }
+type UploadBtnProps = {
+    addImage: (image: ImageType) => void;
+}
+
+export default function UploadBtn({addImage}: UploadBtnProps) {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleUpload = (event: any) => {
-        // Create a single supabase client for interacting with your database
-        uploadFile(event.target.files[0]);
+        setIsLoading(true);
+        uploadFile(event.target.files[0])
+            .then((res) => {
+                if (res) {
+                    addImage(res);
+                    setIsLoading(false);
+                }
+            }).catch((err) => {
+                console.error(err);
+                setIsLoading(false);
+            });
     }
 
     return (
         <Button
             component="label" 
             variant="contained" 
-            startIcon={<AddIcon />}
+            startIcon={isLoading ? <CircularProgress color="primary" /> : <AddIcon />}
+            disabled={isLoading}
             className='add-button'>
-            Přidat
+            { isLoading ? 'Přidávám...' : 'Přidat' }
             <VisuallyHiddenInput 
                 type="file" 
                 onChange={handleUpload} />

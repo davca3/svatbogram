@@ -4,6 +4,7 @@ import { supabase } from "@/lib/api";
 import Image from "next/image";
 
 import { ImageType } from "@/lib/types";
+import { getFileUrl } from "@/lib/helpers";
 
 type ImageGridProps = {
     images: ImageType[],
@@ -19,7 +20,9 @@ export default function ImageGrid({images, addImage, showcaseOpen}: ImageGridPro
     useEffect(() => {
         (async () => {
             const { data, error }: any = await supabase.storage.from('images').list('', {
-                limit: 20
+                limit: 100,
+                offset: 0,
+                sortBy: { column: 'created_at', order: 'asc' },
             });
             if (error) {
                 setError(error);
@@ -27,7 +30,7 @@ export default function ImageGrid({images, addImage, showcaseOpen}: ImageGridPro
             } else {
                 data.map((image: any) => {
                     const imageObject: ImageType = { 
-                        url: supabase.storage.from('images').getPublicUrl(image.name).data.publicUrl, 
+                        url: getFileUrl(image.name), 
                         mimetype: image.metadata.mimetype,
                         name: image.name,
                     };

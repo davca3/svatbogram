@@ -30,7 +30,9 @@ export default function Home() {
 					addImage={(image: ImageType) => dispatch(addImage(image))}
 					showcaseOpen={(image: ImageType | null) => dispatch(toggleShowcase(image))}
 				/>
-				<UploadBtn />
+				<UploadBtn 
+					addImage={(image: ImageType) => dispatch(addImage(image))}
+				/>
 			</ThemeProvider>
 		</main>
 	)
