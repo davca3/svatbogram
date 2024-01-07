@@ -7,15 +7,14 @@ import { ImageType } from "@/lib/types";
 
 type ImageGridProps = {
     images: ImageType[],
-    addImage: (image: ImageType) => void
+    addImage: (image: ImageType) => void,
+    showcaseOpen: (image: ImageType) => void
 }
 
 const isVideo = (file: ImageType | null): boolean => (file && file?.mimetype?.includes('video')) || false;
 
-export default function ImageGrid({images, addImage}: ImageGridProps) {
+export default function ImageGrid({images, addImage, showcaseOpen}: ImageGridProps) {
     const [error, setError] = useState<string | null>(null);
-    const [open, setOpen] = useState<boolean>(false);
-    const [selectedImage, setSelectedImage] = useState<ImageType | null>(null);
 
     useEffect(() => {
         (async () => {
@@ -37,15 +36,6 @@ export default function ImageGrid({images, addImage}: ImageGridProps) {
         })();
     }, []);
 
-    const handleClickOpen = (image: ImageType) => {
-        setSelectedImage(image);
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     if (error) {
         return <div>Error: {(error as any).message}</div>;
     }
@@ -56,7 +46,7 @@ export default function ImageGrid({images, addImage}: ImageGridProps) {
                 {Array.isArray(images) && images.map((image: ImageType, index: number) => (
                     <ImageListItem
                         key={index}
-                        onClick={() => handleClickOpen(image)}>
+                        onClick={() => showcaseOpen(image)}>
                         {
                             isVideo(image) ?
                                 <video
@@ -84,40 +74,6 @@ export default function ImageGrid({images, addImage}: ImageGridProps) {
                     </ImageListItem>
                 ))}
             </ImageList>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogContent>
-                    {
-                        selectedImage && (
-                        isVideo(selectedImage) ? 
-                            <video
-                                src={selectedImage.url + "#t=0.1"}
-                                autoPlay
-                                muted
-                                playsInline
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    maxHeight: '90vh',
-                                    maxWidth: '90vw',
-                                    objectFit: 'cover',
-                                }}
-                                controls
-                            ></video>
-                            : <img
-                                src={selectedImage.url}
-                                alt="Selected"
-                                style={{
-                                    objectFit: 'contain', // cover, contain, none
-                                    maxHeight: '90vh',
-                                    maxWidth: '90vw',
-                                    width: '100%',
-                                    height: '100%',
-                                }}
-                            />
-                        )
-                    }
-                </DialogContent>
-            </Dialog>
         </div>
     )
 }
