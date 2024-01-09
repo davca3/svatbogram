@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Roboto, Sacramento } from 'next/font/google'
-import './globals.scss'
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] });
 const sacramento = Sacramento({ subsets: ['latin'], weight: "400" });
