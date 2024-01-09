@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev && npx tailwindcss -i ./src/app/globals.css -o ./src/app/main.css --watch",
-    "build": "next build && npx tailwindcss -i ./src/app/globals.css -o ./src/app/main.css --watch",
+    "build": "next build && npx tailwindcss -i ./src/app/globals.css -o ./src/app/main.css",
     "start": "next start && npx tailwindcss -i ./src/app/globals.css -o ./src/app/main.css",
     "lint": "next lint"
   },
