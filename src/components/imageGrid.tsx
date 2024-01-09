@@ -58,11 +58,7 @@ export default function ImageGrid({images, addImage, showcaseOpen}: ImageGridPro
                                     preload="metadata"
                                     muted
                                     playsInline
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover',
-                                    }}
+                                    className="object-cover w-full h-full"
                                 ></video>
                                 : <Image
                                     src={image.url}
@@ -70,9 +66,7 @@ export default function ImageGrid({images, addImage, showcaseOpen}: ImageGridPro
                                     alt={`photo ${index}`}
                                     priority
                                     fill
-                                    style={{
-                                        objectFit: 'cover', // cover, contain, none
-                                    }}
+                                    className="object-cover w-full h-full"
                                 />
                         }
                     </ImageListItem>

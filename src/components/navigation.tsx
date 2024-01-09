@@ -30,9 +30,10 @@ function Navigation() {
 
     return (
         <AppBar position="static">
-            <Container maxWidth="xl">
+            <Container maxWidth={false}>
                 <Toolbar disableGutters>
-                    <h1>
+                    <h1 
+                        className="text-3xl">
                         Svatbogram
                     </h1>
                 </Toolbar>
