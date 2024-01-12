@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Sacramento } from "next/font/google";
-import "../components/globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
-const sacramento = Sacramento({ subsets: ["latin"], weight: "400" });
+import "../components/globals.css";
+import Header from "./_components/Header";
+import { inter } from "@/components/fonts";
+import ThemeProvider from "./_components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Svatbogram",
@@ -17,8 +17,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="cs-cz">
-      <body className={`${inter.className} ${sacramento.className}`}>
-        {children}
+      <body className={`${inter.className} bg-white`}>
+        <ThemeProvider>
+          <Header />
+
+          <div className="container mx-auto bg-cool-white min-h-[calc(100vh-4rem)]">
+            {children}
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
