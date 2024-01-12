@@ -1,23 +1,25 @@
-import type { Metadata } from 'next'
-import { Inter, Roboto, Sacramento } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from "next";
+import { Inter, Sacramento } from "next/font/google";
+import "../components/globals.css";
 
-const inter = Inter({ subsets: ['latin'] });
-const sacramento = Sacramento({ subsets: ['latin'], weight: "400" });
+const inter = Inter({ subsets: ["latin"] });
+const sacramento = Sacramento({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
-	title: 'Svatbogram',
-	description: 'Svatební aplikace pro fotky a videa'
-}
+  title: "Svatbogram",
+  description: "Svatební aplikace pro fotky a videa",
+};
 
 export default function RootLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode
+  children: React.ReactNode;
 }) {
-	return (
-		<html lang="en">
-			<body className={`${inter.className} ${sacramento.className}`}>{children}</body>
-		</html>
-	)
+  return (
+    <html lang="cs-cz">
+      <body className={`${inter.className} ${sacramento.className}`}>
+        {children}
+      </body>
+    </html>
+  );
 }
