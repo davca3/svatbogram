@@ -1,7 +1,7 @@
-import { fetchImageList } from "@/lib/data";
+import { fetchImageList } from '@/lib/data';
 
-import { ImageType } from "@/lib/types";
-import { FunctionComponent, HTMLProps } from "react";
+import { ImageType } from '@/lib/types';
+import { FunctionComponent, HTMLProps } from 'react';
 
 type ImageCardProps = ImageType & HTMLProps<HTMLDivElement>;
 
