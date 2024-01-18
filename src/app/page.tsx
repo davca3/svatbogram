@@ -1,5 +1,5 @@
-import { Suspense } from "react";
-import ImageGrid from "./_components/ImageGrid";
+import { Suspense } from 'react';
+import ImageGrid from './_components/ImageGrid';
 
 export default async function Home() {
   //   const [state, dispatch] = useReducer(reducer, initialState);
