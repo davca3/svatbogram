@@ -1,11 +1,15 @@
 import type { Config } from 'tailwindcss';
 
-const config: Config = {
+export default {
   content: ['./src/**/*.{html,js,ts,jsx,tsx,mdx}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'cool-white': '#F0F4F8',
+        primary: '#6B7557',
+        neutral: '#627D98',
+      },
+    },
   },
   plugins: [],
-};
-
-export default config;
+} satisfies Config;

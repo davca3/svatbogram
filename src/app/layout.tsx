@@ -1,23 +1,31 @@
-import type { Metadata } from 'next'
-import { Inter, Roboto, Sacramento } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from "next";
 
-const inter = Inter({ subsets: ['latin'] });
-const sacramento = Sacramento({ subsets: ['latin'], weight: "400" });
+import "../components/globals.css";
+import Header from "./_components/Header";
+import { inter } from "@/components/fonts";
+import ThemeProvider from "./_components/ThemeProvider";
 
 export const metadata: Metadata = {
-	title: 'Svatbogram',
-	description: 'Svatební aplikace pro fotky a videa'
-}
+  title: "Svatbogram",
+  description: "Svatební aplikace pro fotky a videa",
+};
 
 export default function RootLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode
+  children: React.ReactNode;
 }) {
-	return (
-		<html lang="en">
-			<body className={`${inter.className} ${sacramento.className}`}>{children}</body>
-		</html>
-	)
+  return (
+    <html lang="cs-cz">
+      <body className={`${inter.className} bg-white`}>
+        <ThemeProvider>
+          <Header />
+
+          <div className="container mx-auto bg-cool-white min-h-[calc(100vh-4rem)]">
+            {children}
+          </div>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
 }
