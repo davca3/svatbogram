@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev && npx tailwindcss -i ./src/app/globals.css -o ./src/app/main.css --watch",
-    "build": "next build && npx tailwindcss -i ./src/app/globals.css -o ./src/app/main.css",
-    "start": "next start && npx tailwindcss -i ./src/app/globals.css -o ./src/app/main.css",
-    "lint": "next lint"
+    "build": "next build && npx tailwindcss -i ./src/components/globals.css -o ./src/app/main.css",
+    "dev": "next dev && npx tailwindcss -i ./src/components/globals.css -o ./src/app/main.css --watch",
+    "lint": "next lint",
+    "start": "next start && npx tailwindcss -i ./src/components/globals.css -o ./src/app/main.css"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
