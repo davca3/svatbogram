@@ -1,6 +1,6 @@
 import { supabase } from './api';
 import { getFileUrl } from './helpers';
-import { ImageRAWType, ImageType, ImageTypeParser } from './types';
+import { ImageType, ImageTypeParser } from './types';
 
 export async function fetchImageList() {
   try {
