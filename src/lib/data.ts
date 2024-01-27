@@ -14,7 +14,6 @@ export async function fetchImageList() {
       throw new Error();
     }
 
-    //TODO: add zod parser
     const parsedResult = ImageTypeParser.safeParse(data);
 
     if (!parsedResult.success) {
