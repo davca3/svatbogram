@@ -7,6 +7,7 @@ export default {
       colors: {
         'cool-white': '#F0F4F8',
         primary: '#6B7557',
+        'primary-light': '#B0B899',
         neutral: '#627D98',
       },
     },
