@@ -22,30 +22,30 @@ export default function ImageGrid({
 }: ImageGridProps) {
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    (async () => {
-      const { data, error }: any = await supabase.storage
-        .from('images')
-        .list('', {
-          limit: 100,
-          offset: 0,
-          sortBy: { column: 'created_at', order: 'asc' },
-        });
-      if (error) {
-        setError(error);
-        console.error(error);
-      } else {
-        data.map((image: any) => {
-          const imageObject: ImageType = {
-            url: getFileUrl(image.name),
-            mimetype: image.metadata.mimetype,
-            name: image.name,
-          };
-          addImage(imageObject);
-        });
-      }
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const { data, error }: any = await supabase.storage
+  //       .from('images')
+  //       .list('', {
+  //         limit: 100,
+  //         offset: 0,
+  //         sortBy: { column: 'created_at', order: 'asc' },
+  //       });
+  //     if (error) {
+  //       setError(error);
+  //       console.error(error);
+  //     } else {
+  //       data.map((image: any) => {
+  //         const imageObject: ImageType = {
+  //           url: getFileUrl(image.name),
+  //           mimetype: image.metadata.mimetype,
+  //           name: image.name,
+  //         };
+  //         addImage(imageObject);
+  //       });
+  //     }
+  //   })();
+  // }, []);
 
   if (error) {
     return <div>Error: {(error as any).message}</div>;
