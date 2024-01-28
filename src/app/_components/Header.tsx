@@ -1,17 +1,27 @@
-import { sacramento } from "@/components/fonts";
-import { FunctionComponent } from "react";
-import UploadButton from "./UploadButton";
+import { auth } from '@/auth';
+import { sacramento } from '@/components/fonts';
+import Link from 'next/link';
+import { FunctionComponent } from 'react';
+import SignOut from './SignOut';
+import UploadButton from './UploadButton';
 
-const Header: FunctionComponent = () => {
+const Header: FunctionComponent = async () => {
+  const authFunction = await auth();
+
   return (
     <div className="h-16 bg-primary">
-      <div className="container mx-auto flex justify-between gap-4 items-center h-full p-4 text-white">
+      <div className="container mx-auto flex h-full items-center justify-between gap-4 p-4 text-white">
         {/* title */}
-        <h1 className={`text-3xl ${sacramento.className}`}>Svatbogram</h1>
-
+        <Link href="/">
+          <h1 className={`text-3xl ${sacramento.className}`}>Svatbogram</h1>
+        </Link>
         {/* actions */}
-        <div>
+        <div className="flex gap-4">
+          {/* Common button */}
           <UploadButton />
+
+          {/* Admin only button */}
+          {authFunction && <SignOut />}
         </div>
       </div>
     </div>
