@@ -3,7 +3,8 @@ import type { Metadata } from 'next';
 import '../components/globals.css';
 import Header from './_components/Header';
 import { inter } from '@/components/fonts';
-import ThemeProvider from './_components/ThemeProvider';
+
+import Providers from '@/lib/Provider';
 
 export const metadata: Metadata = {
   title: 'Svatbogram',
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="cs-cz">
       <body className={`${inter.className} bg-white`}>
-        <ThemeProvider>
+        <Providers>
           <div>
             <Header />
 
@@ -26,7 +27,7 @@ export default function RootLayout({
               {children}
             </div>
           </div>
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
