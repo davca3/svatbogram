@@ -2,8 +2,9 @@
 
 import { uploadFile } from "@/lib/helpers";
 import { Button, CircularProgress, styled } from "@mui/material";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useContext } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import { SnackbarContext } from "@/app/_components/SnackbarProvider";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -18,6 +19,7 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const UploadButton = () => {
+  const { showMessage } = useContext(SnackbarContext);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
@@ -28,11 +30,13 @@ const UploadButton = () => {
       .then((res) => {
         if (res) {
           //   addImage(res); ---> TODO: server action to upload image
+          showMessage("Obrázek byl úspěšně nahrán", "success");
           setIsLoading(false);
         }
       })
       .catch((err) => {
         console.error(err);
+        showMessage("Něco se pokazilo, zkuste to prosím znovu", "error");
         setIsLoading(false);
       });
   };
@@ -52,7 +56,11 @@ const UploadButton = () => {
         </span>
       </div>
 
-      <VisuallyHiddenInput type="file" onChange={handleUpload} />
+      <VisuallyHiddenInput 
+        type="file" 
+        onChange={handleUpload}
+        accept="image/*"
+      />
     </Button>
   );
 };
