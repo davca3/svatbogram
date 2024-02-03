@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import ImageGrid from './_components/ImageGrid';
+import { Loader } from './_components/Loader';
 
 export default async function Home() {
   //   const [state, dispatch] = useReducer(reducer, initialState);
@@ -19,8 +20,8 @@ export default async function Home() {
         }
       /> */}
 
-      {/* TODO: Add loading skeleton */}
-      <Suspense fallback={null}>
+      {/* TODO: Add loading skeleton (not necessary)*/}
+      <Suspense fallback={<Loader />}>
         <ImageGrid />
       </Suspense>
     </main>
