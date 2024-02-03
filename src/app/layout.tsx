@@ -8,6 +8,10 @@ import ThemeProvider from './_components/ThemeProvider';
 export const metadata: Metadata = {
   title: 'Svatbogram',
   description: 'Svatební aplikace pro fotky a videa',
+  icons: {
+    icon: "https://budemetretinovi.cz/favicon/favicon-32x32.png",
+    apple: "https://budemetretinovi.cz/favicon/apple-touch-icon.png"
+  },
 };
 
 export default function RootLayout({
