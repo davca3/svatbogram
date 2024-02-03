@@ -5,8 +5,8 @@ import { ImageType, ImageTypeParser } from './types';
 export async function fetchImageList() {
   try {
     const { data, error } = await supabase.storage.from('images').list('', {
-      limit: 100,
-      offset: 0,
+      // limit: 100,
+      // offset: 0,
       sortBy: { column: 'created_at', order: 'asc' },
     });
 
