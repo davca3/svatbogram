@@ -17,7 +17,7 @@ const Header: FunctionComponent = async () => {
           <h1 className={`text-3xl ${sacramento.className}`}>
             Svatbogram
             <img 
-              className={`inline h-8 w-8 ml-1 mb-4 filter brightness-0 invert`} 
+              className={`inline h-8 w-8 ml-1 mb-4 filter brightness-0 invert pointer-events-none`} 
               src="two-hearts.png" 
               alt="" />
           </h1>
