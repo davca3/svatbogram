@@ -7,11 +7,16 @@ import ThemeProvider from './_components/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'Svatbogram',
+  applicationName: 'Svatbogram',
   description: 'Svatební aplikace pro fotky a videa',
   icons: {
     icon: "https://budemetretinovi.cz/favicon/favicon-32x32.png",
     apple: "https://budemetretinovi.cz/favicon/apple-touch-icon.png"
   },
+  authors: [
+    { name: 'David Třetina' },
+    { name: 'Daniel Neuman' }
+  ]
 };
 
 export default function RootLayout({
