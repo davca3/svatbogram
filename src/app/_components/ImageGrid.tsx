@@ -19,7 +19,7 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
         preload="metadata"
         muted
         playsInline
-        className="h-full w-full object-cover aspect-square"
+        className="aspect-square h-full w-full object-cover"
         width={150}
         height={150}
       ></video>
@@ -27,7 +27,7 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
   } else {
     contentNode = (
       <Image
-        className="h-full w-full object-cover object-center aspect-square"
+        className="aspect-square h-full w-full object-cover object-center"
         src={url}
         alt={name}
         width={150}
@@ -42,7 +42,7 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
 export default async function ImageGrid() {
   const imageList = await fetchImageList();
   return (
-    <div className="grid grid-cols-3 gap-1 pt-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
+    <div className="grid grid-cols-3 gap-1 py-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
       {imageList.map((image, key) => (
         <ImageCard {...image} key={key} />
       ))}
