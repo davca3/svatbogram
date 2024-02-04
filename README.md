@@ -1,23 +1,6 @@
-## TODOLIST
-
-```
-⚪️ Implement TailwindCSS
-⚪️ Disable dark mode
-⚪️ Disable Heic upload on frontend (backend is already done)
-⚪️ Somewhat optimize images and videos
-⚪️ Add/Create favicon
-⚪️ Multiple file upload
-⚪️ Selecting multiple files and ability to download them
-⚪️ Download all files
-⚪️ GOD MODE (admin panel) - Delete files and other stuff
-⚪️ Next/Prev buttons for files
-⚪️ Infinite scroll and lower the amount of files loaded at once
-⚪️ Sharing option?
-```
-
 # Svatbogram
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a simple photo/video sharing app for my wedding. It's built with Next.js and Supabase. Can be used for any event, not just weddings.
 
 ## .env requirements
 
@@ -35,22 +18,20 @@ USERNAME=
 PASSWORD=
 ```
 
-## Getting Started
+## TODOLIST
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```md
+⚪️ Multiple file upload
+⚪️ Selecting multiple files and ability to download them
+⚪️ Download all files - maybe make it with selecting feature
+⚪️ GOD MODE (admin panel) - Delete files and other stuff
+⚪️ Next/Prev buttons for files
+⚪️ Infinite scroll and lower the amount of files loaded at once
+⚪️ Add presentation mode
+⚪️ Sharing option?
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Authors
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- [<img src="https://github.com/davca3.png" width="20" height="20"> @davca3](https://www.github.com/davca3);
+- [<img src="https://github.com/neumandaniel.png" width="20" height="20"> @neumandaniel](https://www.github.com/neumandaniel)
