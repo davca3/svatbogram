@@ -1,8 +1,9 @@
+import { useQuery } from '@tanstack/react-query';
 import { supabase } from './api';
 import { getFileUrl } from './helpers';
 import { ImageType, ImageTypeParser } from './types';
 
-export async function fetchImageList() {
+export const fetchImageList = async () => {
   try {
     const { data, error } = await supabase.storage.from('images').list('', {
       limit: 100,
@@ -36,4 +37,31 @@ export async function fetchImageList() {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch Images');
   }
-}
+};
+
+export const fetchInfiniteImageList = async ({ pageParam = 0 }) => {
+  const { data, error } = await supabase.storage.from('images').list('', {
+    limit: 3,
+    offset: pageParam * 3,
+    sortBy: { column: 'created_at', order: 'desc' },
+  });
+
+  if (error) {
+    throw new Error();
+  }
+
+  const parsedResult = ImageTypeParser.safeParse(data);
+
+  if (!parsedResult.success) {
+    console.error('[Database Error] Failed to parse data:', parsedResult.error);
+    throw new Error('Failed to parse data');
+  }
+
+  const res: ImageType[] = parsedResult.data.map((image) => ({
+    ...image,
+    url: getFileUrl(image.name),
+    mimetype: image.metadata.mimetype,
+  }));
+
+  return res;
+};

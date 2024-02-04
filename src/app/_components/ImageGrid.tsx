@@ -1,53 +1,77 @@
-import { fetchImageList } from '@/lib/data';
-import { ImageType } from '@/lib/types';
-import Image from 'next/image';
-import { FunctionComponent, HTMLProps } from 'react';
+'use client';
+import { fetchInfiniteImageList } from '@/lib/data';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { Fragment, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import ImageCard from './ImageCard';
 
-type ImageCardProps = ImageType & HTMLProps<HTMLDivElement>;
+export default function ImageGrid() {
+  // const imageList = await fetchImageList();
 
-const ImageCard: FunctionComponent<ImageCardProps> = ({
-  url,
-  name,
-  mimetype,
-}) => {
-  let contentNode = null;
+  const { ref, inView } = useInView();
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ['images'],
+    queryFn: fetchInfiniteImageList,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (!lastPage || lastPage.length === 0) {
+        return undefined;
+      }
+      return lastPageParam + 1;
+    },
+    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
+      if (firstPageParam <= 1) {
+        return undefined;
+      }
+      return firstPageParam - 1;
+    },
+  });
 
-  if (mimetype.includes('video')) {
-    contentNode = (
-      <video
-        src={url + '#t=0.1'}
-        preload="metadata"
-        muted
-        playsInline
-        controls
-        controlsList="nodownload"
-        className="h-full w-full object-cover"
-        width={300}
-        height={400}
-      ></video>
-    );
-  } else {
-    contentNode = (
-      <Image
-        className="h-full w-full object-cover object-center"
-        src={url}
-        alt={name}
-        width={300}
-        height={400}
-      />
-    );
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, inView]);
+
+  if (status === 'pending') {
+    return <div>Loading image grid...</div>;
   }
 
-  return <div className="">{contentNode}</div>;
-};
+  if (status === 'error') {
+    return <div>Error: {error.message}</div>;
+  }
 
-export default async function ImageGrid() {
-  const imageList = await fetchImageList();
   return (
-    <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {imageList.map((image, key) => (
-        <ImageCard {...image} key={key} />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {data.pages.map((page, key) => (
+          <Fragment key={key}>
+            <h1>Page {key}</h1>
+            {page &&
+              page.length &&
+              page.map((image) => <ImageCard {...image} key={image.id} />)}
+          </Fragment>
+        ))}
+      </div>
+      <button
+        ref={ref}
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetchingNextPage}
+      >
+        {isFetchingNextPage
+          ? 'Loading more...'
+          : hasNextPage
+            ? 'Load Newer'
+            : 'Nothing more to load'}
+      </button>
+    </>
   );
 }

@@ -17,20 +17,19 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           queries: {
             // With SSR, we usually want to set some default staleTime
             // above 0 to avoid refetching immediately on the client
-            staleTime: 4 * 1000,
-            refetchInterval: 4 * 1000,
+            // staleTime: 4 * 1000,
+            // refetchInterval: 4 * 1000,
           },
         },
       }),
   );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools />
-      <MUIThemeProvider theme={themeOptions}>
+    <MUIThemeProvider theme={themeOptions}>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools />
         {children}
-        {children}
-      </MUIThemeProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </MUIThemeProvider>
   );
 }

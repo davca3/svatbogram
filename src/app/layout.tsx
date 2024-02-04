@@ -20,12 +20,10 @@ export default function RootLayout({
     <html lang="cs-cz">
       <body className={`${inter.className} bg-white`}>
         <Providers>
-          <div>
-            <Header />
+          <Header />
 
-            <div className="container mx-auto min-h-[calc(100vh-4rem)] bg-cool-white">
-              {children}
-            </div>
+          <div className="container mx-auto min-h-[calc(100vh-4rem)] bg-cool-white">
+            {children}
           </div>
         </Providers>
       </body>
