@@ -7,7 +7,7 @@ export async function fetchImageList() {
     const { data, error } = await supabase.storage.from('images').list('', {
       // limit: 100,
       // offset: 0,
-      sortBy: { column: 'created_at', order: 'asc' },
+      sortBy: { column: 'created_at', order: 'desc' },
     });
 
     if (error) {
@@ -31,7 +31,7 @@ export async function fetchImageList() {
     }));
 
     // Show the newest images first
-    return res.sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
+    return res;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch Images');
