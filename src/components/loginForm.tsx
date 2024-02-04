@@ -2,11 +2,18 @@
 
 import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate } from '../lib/actions';
-import { Button } from '@mui/material';
-import BadgeIcon from '@mui/icons-material/Badge';
-import KeyIcon from '@mui/icons-material/Key';
-import ErrorIcon from '@mui/icons-material/Error';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Button } from './ui/button';
+import {
+  AlertCircleIcon,
+  ArrowRightIcon,
+  KeyRoundIcon,
+  UserIcon,
+} from 'lucide-react';
+// import { Button } from '@mui/material';
+// import BadgeIcon from '@mui/icons-material/Badge';
+// import KeyIcon from '@mui/icons-material/Key';
+// import ErrorIcon from '@mui/icons-material/Error';
+// import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export default function LoginForm() {
   const [errorMessage, dispath] = useFormState(authenticate, undefined);
@@ -31,7 +38,7 @@ export default function LoginForm() {
                 placeholder="Enter your email address"
                 required
               />
-              <BadgeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
           <div className="mt-4">
@@ -51,7 +58,7 @@ export default function LoginForm() {
                 required
                 minLength={4}
               />
-              <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              <KeyRoundIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
         </div>
@@ -63,7 +70,7 @@ export default function LoginForm() {
         >
           {errorMessage && (
             <>
-              <ErrorIcon className="h-5 w-5 text-red-500" />
+              <AlertCircleIcon className="h-5 w-5 text-red-500" />
               <p className="text-sm text-red-500">{errorMessage}</p>
             </>
           )}
@@ -78,7 +85,7 @@ function LoginButton() {
   return (
     <Button className="mt-4 w-full" type="submit" aria-disabled={pending}>
       Přihlásit se
-      <ArrowForwardIcon className="ml-auto h-5 w-5 fill-primary" />
+      <ArrowRightIcon className="ml-auto h-5 w-5 fill-primary" />
     </Button>
   );
 }

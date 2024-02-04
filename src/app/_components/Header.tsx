@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { FunctionComponent } from 'react';
 import SignOut from './SignOut';
 import UploadButton from './UploadButton';
-import Image from 'next/image';
 
 const Header: FunctionComponent = async () => {
   const authFunction = await auth();
@@ -16,10 +15,11 @@ const Header: FunctionComponent = async () => {
         <Link href="/">
           <h1 className={`text-3xl ${sacramento.className}`}>
             Svatbogram
-            <img 
-              className={`inline h-8 w-8 ml-1 mb-4 filter brightness-0 invert pointer-events-none`} 
-              src="two-hearts.png" 
-              alt="" />
+            <img
+              className={`pointer-events-none mb-4 ml-1 inline h-8 w-8 brightness-0 invert filter`}
+              src="two-hearts.png"
+              alt=""
+            />
           </h1>
         </Link>
         {/* actions */}

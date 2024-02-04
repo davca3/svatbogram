@@ -4,6 +4,10 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { Fragment, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import ImageCard from './ImageCard';
+import { Skeleton } from '@/components/ui/skeleton';
+
+const IMAGE_GRID_STYLES =
+  'grid grid-cols-3 gap-1 py-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4';
 
 export default function ImageGrid() {
   // const imageList = await fetchImageList();
@@ -14,7 +18,6 @@ export default function ImageGrid() {
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
@@ -42,7 +45,13 @@ export default function ImageGrid() {
   }, [fetchNextPage, inView]);
 
   if (status === 'pending') {
-    return <div>Loading image grid...</div>;
+    return (
+      <div className={IMAGE_GRID_STYLES}>
+        {Array.from({ length: 12 }).map((_, key) => (
+          <Skeleton key={key} className="aspect-square w-full" />
+        ))}
+      </div>
+    );
   }
 
   if (status === 'error') {
@@ -51,7 +60,7 @@ export default function ImageGrid() {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-1 py-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
+      <div className={IMAGE_GRID_STYLES}>
         {data.pages.map((page, key) => (
           <Fragment key={key}>
             {page &&
