@@ -51,12 +51,11 @@ export default function ImageGrid() {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-3 gap-1 py-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
         {data.pages.map((page, key) => (
           <Fragment key={key}>
-            <h1>Page {key}</h1>
             {page &&
-              page.length &&
+              page.length > 0 &&
               page.map((image) => <ImageCard {...image} key={image.id} />)}
           </Fragment>
         ))}
