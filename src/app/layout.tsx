@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import '../components/globals.css';
 import Header from './_components/Header';
@@ -16,6 +16,10 @@ export const metadata: Metadata = {
   authors: [{ name: 'David Třetina' }, { name: 'Daniel Neuman' }],
 };
 
+export const viewport: Viewport = {
+  themeColor: '#6B7557',
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -27,9 +31,7 @@ export default function RootLayout({
         <Providers>
           <Header />
 
-          <div className="container mx-auto min-h-[calc(100vh-4rem)] bg-cool-white">
-            {children}
-          </div>
+          <div className="container mx-auto bg-cool-white">{children}</div>
         </Providers>
       </body>
     </html>

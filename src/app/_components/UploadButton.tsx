@@ -43,16 +43,15 @@ const UploadButton = () => {
   };
 
   return (
-    <Button
-      disabled={isLoading}
-      className="min-w-0 bg-neutral px-4 py-2 text-white" // TODO: focus/hove state
-    >
+    <Button disabled={isLoading} variant="secondary">
       <div className="flex items-center gap-2">
-        {isLoading ? <Loader2Icon className="animate-spin" /> : <PlusIcon />}
+        {isLoading ? (
+          <Loader2Icon className="h-4 w-4 animate-spin" />
+        ) : (
+          <PlusIcon className="h-4 w-4" />
+        )}
 
-        <span className="hidden md:block">
-          {isLoading ? 'Přidávám...' : 'Přidat'}
-        </span>
+        <span className="block">{isLoading ? 'Přidávám...' : 'Přidat'}</span>
       </div>
 
       {/* <VisuallyHiddenInput 
