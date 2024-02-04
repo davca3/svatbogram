@@ -4,6 +4,7 @@ import '../components/globals.css';
 import Header from './_components/Header';
 import { inter } from '@/components/fonts';
 import Providers from '@/lib/provider';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   title: 'Svatbogram',
@@ -31,7 +32,10 @@ export default function RootLayout({
         <Providers>
           <Header />
 
-          <div className="container mx-auto bg-cool-white">{children}</div>
+          <div className="container mx-auto bg-cool-white">
+            {children}
+            <Toaster />
+          </div>
         </Providers>
       </body>
     </html>

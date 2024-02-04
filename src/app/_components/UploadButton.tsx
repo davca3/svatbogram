@@ -3,24 +3,11 @@
 import { Button } from '@/components/ui/button';
 import { uploadFile } from '@/lib/helpers';
 import { Loader2Icon, PlusIcon } from 'lucide-react';
-// import { Button, CircularProgress, styled } from "@mui/material";
-import React, { ChangeEvent, useState, useContext } from 'react';
-// import { SnackbarContext } from "@/app/_components/SnackbarProvider";
 
-// const VisuallyHiddenInput = styled("input")({
-//   clip: "rect(0 0 0 0)",
-//   clipPath: "inset(50%)",
-//   height: 1,
-//   overflow: "hidden",
-//   position: "absolute",
-//   bottom: 0,
-//   left: 0,
-//   whiteSpace: "nowrap",
-//   width: 1,
-// });
+import { ChangeEvent, useState } from 'react';
+import { toast } from 'sonner';
 
 const UploadButton = () => {
-  // const { showMessage } = useContext(SnackbarContext);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,35 +18,35 @@ const UploadButton = () => {
       .then((res) => {
         if (res) {
           //   addImage(res); ---> TODO: server action to upload image
-          // showMessage("Obrázek byl úspěšně nahrán", "success");
+
+          toast.success('Obrázek byl úspěšně nahrán');
           setIsLoading(false);
         }
       })
       .catch((err) => {
         console.error(err);
-        // showMessage("Něco se pokazilo, zkuste to prosím znovu", "error");
+        toast.error('Něco se pokazilo, zkuste to prosím znovu');
         setIsLoading(false);
       });
   };
 
   return (
-    <Button disabled={isLoading} variant="secondary">
-      <div className="flex items-center gap-2">
+    <div className="relative cursor-pointer">
+      <Button variant="secondary" disabled={isLoading}>
         {isLoading ? (
-          <Loader2Icon className="h-4 w-4 animate-spin" />
+          <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          <PlusIcon className="h-4 w-4" />
+          <PlusIcon className="mr-2 h-4 w-4" />
         )}
 
         <span className="block">{isLoading ? 'Přidávám...' : 'Přidat'}</span>
-      </div>
-
-      {/* <VisuallyHiddenInput 
-        type="file" 
+      </Button>
+      <input
+        type="file"
+        className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
         onChange={handleUpload}
-        accept="image/*"
-      /> */}
-    </Button>
+      />
+    </div>
   );
 };
 
