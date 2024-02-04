@@ -1,11 +1,21 @@
 import { Suspense } from 'react';
 import ImageGrid from './_components/ImageGrid';
+import { Skeleton } from '@mui/material';
 
 export default async function Home() {
   return (
     <main>
-      {/* TODO: Add loading skeleton */}
-      <Suspense fallback={<div>Loading Suspense...</div>}>
+      <Suspense
+        fallback={
+          <Skeleton
+            animation="wave"
+            variant="rectangular"
+            height={'100%'}
+            width={'100%'}
+            className="aspect-square object-cover"
+          />
+        }
+      >
         <ImageGrid />
       </Suspense>
     </main>
