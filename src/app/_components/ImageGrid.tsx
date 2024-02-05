@@ -5,13 +5,12 @@ import { Fragment, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import ImageCard from './ImageCard';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
 
 const IMAGE_GRID_STYLES =
-  'grid grid-cols-3 gap-1 py-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4';
+  'relative z-10 grid grid-cols-3 gap-1 py-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4';
 
 export default function ImageGrid() {
-  // const imageList = await fetchImageList();
-
   const { ref, inView } = useInView();
   const {
     data,
@@ -69,7 +68,7 @@ export default function ImageGrid() {
           </Fragment>
         ))}
       </div>
-      <button
+      <Button
         ref={ref}
         onClick={() => fetchNextPage()}
         disabled={!hasNextPage || isFetchingNextPage}
@@ -79,7 +78,7 @@ export default function ImageGrid() {
           : hasNextPage
             ? 'Load Newer'
             : 'Nothing more to load'}
-      </button>
+      </Button>
     </>
   );
 }
