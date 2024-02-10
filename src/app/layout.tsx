@@ -1,22 +1,27 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import '../components/globals.css';
 import Header from './_components/Header';
 import { inter } from '@/components/fonts';
-import ThemeProvider from './_components/ThemeProvider';
+import Providers from '@/lib/Provider';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   title: 'Svatbogram',
   applicationName: 'Svatbogram',
   description: 'Svatební aplikace pro fotky a videa',
   icons: {
-    icon: "https://budemetretinovi.cz/favicon/favicon-32x32.png",
-    apple: "https://budemetretinovi.cz/favicon/apple-touch-icon.png"
+    icon: 'https://budemetretinovi.cz/favicon/favicon-32x32.png',
+    apple: 'https://budemetretinovi.cz/favicon/apple-touch-icon.png',
   },
-  authors: [
-    { name: 'David Třetina' },
-    { name: 'Daniel Neuman' }
-  ]
+  authors: [{ name: 'David Třetina' }, { name: 'Daniel Neuman' }],
+};
+
+export const viewport: Viewport = {
+  themeColor: '#6B7557',
+  initialScale: 1,
+  width: 'device-width',
+  height: 'device-height',
 };
 
 export default function RootLayout({
@@ -27,15 +32,14 @@ export default function RootLayout({
   return (
     <html lang="cs-cz">
       <body className={`${inter.className} bg-white`}>
-        <ThemeProvider>
-          <div>
-            <Header />
+        <Providers>
+          <Header />
 
-            <div className="container mx-auto min-h-[calc(100vh-4rem)] bg-cool-white">
-              {children}
-            </div>
+          <div className="container mx-auto bg-cool-white">
+            {children}
+            <Toaster />
           </div>
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

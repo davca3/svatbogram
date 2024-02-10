@@ -1,51 +1,104 @@
-import { fetchImageList } from '@/lib/data';
-import { ImageType } from '@/lib/types';
-import Image from 'next/image';
-import { FunctionComponent, HTMLProps } from 'react';
+'use client';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { PRELOAD_COUNT } from '@/lib/constants';
+import { fetchInfiniteImageList } from '@/lib/data';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { Fragment, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import ImageCard from './ImageCard';
 
-type ImageCardProps = ImageType & HTMLProps<HTMLDivElement>;
+// Common styles for "Loading Skeleton" and "Image Grid"
+const IMAGE_GRID_STYLES =
+  'relative z-10 grid grid-cols-3 gap-1 py-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4';
 
-const ImageCard: FunctionComponent<ImageCardProps> = ({
-  url,
-  name,
-  mimetype,
-}) => {
-  let contentNode = null;
+export default function ImageGrid() {
+  // Intersection Observer hook to detect when the last image is in view
+  const { ref, inView } = useInView();
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ['images'], // Unique key for the query, used to cache the result
+    queryFn: fetchInfiniteImageList, // Function to fetch the data
+    initialPageParam: 0, // Initial page to fetch
+    getNextPageParam: (lastPage, _, lastPageParam) => {
+      // fetch the next page if the last page has items
+      if (!lastPage || lastPage.length === 0) {
+        return undefined;
+      }
+      return lastPageParam + 1;
+    },
+    getPreviousPageParam: (_, __, firstPageParam) => {
+      // fetch the previous page if the first page has items - in case of random load in middle of the list
+      if (firstPageParam <= 1) {
+        return undefined;
+      }
+      return firstPageParam - 1;
+    },
+  });
 
-  if (mimetype.includes('video')) {
-    contentNode = (
-      <video
-        src={url + '#t=0.1'}
-        preload="metadata"
-        muted
-        playsInline
-        className="aspect-square h-full w-full object-cover"
-        width={150}
-        height={150}
-      ></video>
-    );
-  } else {
-    contentNode = (
-      <Image
-        className="aspect-square h-full w-full object-cover object-center"
-        src={url}
-        alt={name}
-        width={150}
-        height={150}
-      />
+  // Fetch next page when the last image is in view
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, inView]);
+
+  // Render loading state while fetching next chunk of images
+  if (status === 'pending') {
+    return (
+      <div className={IMAGE_GRID_STYLES}>
+        {Array.from({ length: PRELOAD_COUNT }).map((_, key) => (
+          <Skeleton key={key} className="aspect-square w-full" />
+        ))}
+      </div>
     );
   }
 
-  return <div className="">{contentNode}</div>;
-};
+  // Render error state if fetching failed -- TODO: Add Error boundary client
+  if (status === 'error') {
+    return <div>Error: {error.message}</div>;
+  }
 
-export default async function ImageGrid() {
-  const imageList = await fetchImageList();
   return (
-    <div className="grid grid-cols-3 gap-1 py-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
-      {imageList.map((image, key) => (
-        <ImageCard {...image} key={key} />
-      ))}
-    </div>
+    <>
+      {/* Image grid */}
+      <div className={IMAGE_GRID_STYLES}>
+        {/* Data is paginated, so we need to map over the pages */}
+        {data.pages.map((page, currentPageId) => (
+          <Fragment key={currentPageId}>
+            {page &&
+              page.length > 0 &&
+              page.map((image) => (
+                <ImageCard
+                  priority={currentPageId === 1}
+                  {...image}
+                  key={image.id}
+                />
+              ))}
+          </Fragment>
+        ))}
+      </div>
+
+      {/* Load more button in case where observer fail to load */}
+      <div className="grid place-content-center">
+        <Button
+          ref={ref}
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage || isFetchingNextPage}
+        >
+          {isFetchingNextPage
+            ? 'Načítám další obrázky...'
+            : hasNextPage
+              ? 'Načíst další obrázky'
+              : 'Už jsem načetl všechny obrázky'}
+        </Button>
+      </div>
+    </>
   );
 }

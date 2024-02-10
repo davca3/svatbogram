@@ -1,6 +1,5 @@
 'use server';
 import { signIn } from '@/auth';
-import { ImageType } from './types';
 import { AuthError } from 'next-auth';
 
 export async function authenticate(

@@ -1,12 +1,12 @@
 import { Suspense } from 'react';
 import ImageGrid from './_components/ImageGrid';
-import { Skeleton } from '@mui/material';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default async function Home() {
-
   return (
     <main>
-      <Suspense fallback={<Skeleton animation="wave" variant="rectangular" height={'100%'} width={'100%'} className='object-cover aspect-square' />}>
+      {/* Suspense client for bundle load, probably never will be seen. */}
+      <Suspense fallback={<Skeleton className="h-full w-full" />}>
         <ImageGrid />
       </Suspense>
     </main>
