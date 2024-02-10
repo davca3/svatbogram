@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { uploadFile } from '@/lib/helpers';
+import { resumableUploadFile, uploadFile } from '@/lib/helpers';
 import { Loader2Icon, PlusIcon } from 'lucide-react';
 
 import { ChangeEvent, useState } from 'react';
@@ -14,11 +14,23 @@ const UploadButton = () => {
     setIsLoading(true);
     if (!event.target.files?.length) throw new Error('No Image provided');
 
-    uploadFile(event.target.files[0])
-      .then((res) => {
-        if (res) {
-          //   addImage(res); ---> TODO: server action to upload image
+    // uploadFile(event.target.files[0])
+    //   .then((res) => {
+    //     if (res) {
+    //       //   addImage(res); ---> TODO: server action to upload image
 
+    //       toast.success('Obrázek byl úspěšně nahrán');
+    //       setIsLoading(false);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //     toast.error('Něco se pokazilo, zkuste to prosím znovu');
+    //     setIsLoading(false);
+    //   });
+
+    resumableUploadFile(event.target.files[0]).then((res) => {
+        if (res) {
           toast.success('Obrázek byl úspěšně nahrán');
           setIsLoading(false);
         }
@@ -45,6 +57,8 @@ const UploadButton = () => {
         type="file"
         className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
         onChange={handleUpload}
+        accept='image/*, video/*'
+        multiple
       />
     </div>
   );
