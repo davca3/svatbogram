@@ -32,8 +32,7 @@ export async function uploadFile(file: File): Promise<ImageType | null> {
   }
 }
 
-export async function resumableUploadFile(file: File) {
-  const toastId = toast.loading('Nahrávám: 0%');
+export async function resumableUploadFile(file: File, onProgressCallback?: (percentage: number) => void) {
   return new Promise((resolve, reject) => {
     const upload = new tus.Upload(file, {
       endpoint: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/upload/resumable`,
@@ -52,21 +51,15 @@ export async function resumableUploadFile(file: File) {
       chunkSize: 6 * 1024 * 1024, // NOTE: it must be set to 6MB (for now) do not change it
       onError: function (error) {
         console.log('Upload failed: ' + error)
-        toast.error('Něco se pokazilo, zkuste to prosím znovu', {
-          id: toastId
-        });
         reject(error)
       },
       onProgress: function (bytesUploaded, bytesTotal) {
-        const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(0);
-        toast.loading(`Nahrávám: ${percentage}%`, {
-          id: toastId
-        })
+        if (onProgressCallback) {
+          const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(0);
+          onProgressCallback(Number(percentage));
+        }
       },
       onSuccess: function () {
-        toast.success('Soubor byl úspěšně nahrán', {
-          id: toastId
-        });
         resolve(upload);
       },
     });
