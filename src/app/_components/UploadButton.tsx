@@ -17,6 +17,16 @@ const UploadButton = () => {
     const files = Array.from(event.target.files);
     const toastId = toast.loading('Nahrávám...');
 
+    const uploadFile = async (file: File, index: number, totalFiles: number, toastId: ToastT["id"]) => {
+      try {
+        await resumableUploadFile(file, (percentage: number) =>
+          toast.loading(`Nahrávám ${index + 1} z ${totalFiles} ${totalFiles > 1 ? 'souborů' : 'soubor'}: ${percentage}%`, { id: toastId })
+        );
+      } catch (error) {
+        throw error;
+      }
+    }
+
     try {
       for (let index = 0; index < files.length; index++) {
         await uploadFile(files[index], index, files.length, toastId);
@@ -29,16 +39,6 @@ const UploadButton = () => {
       setIsLoading(false);
     }
   };
-
-  const uploadFile = async (file: File, index: number, totalFiles: number, toastId: ToastT["id"]) => {
-    try {
-      await resumableUploadFile(file, (percentage: number) =>
-        toast.loading(`Nahrávám ${index + 1} z ${totalFiles} ${totalFiles > 1 ? 'souborů' : 'soubor'}: ${percentage}%`, { id: toastId })
-      );
-    } catch (error) {
-      throw error;
-    }
-  }
 
   return (
     <div className="relative cursor-pointer">
