@@ -36,7 +36,8 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
         alt={name}
         width={150}
         height={150}
-        loading={priority ? 'eager' : 'lazy'}
+        priority={priority}
+        placeholder="blur"
       />
     );
   }
