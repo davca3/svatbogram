@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from './api';
+import { supabase } from './db';
+import { PRELOAD_COUNT } from './constants';
 import { getFileUrl } from './helpers';
 import { ImageType, ImageTypeParser } from './types';
 
@@ -41,8 +41,8 @@ export const fetchImageList = async () => {
 
 export const fetchInfiniteImageList = async ({ pageParam = 0 }) => {
   const { data, error } = await supabase.storage.from('images').list('', {
-    limit: 3,
-    offset: pageParam * 3,
+    limit: PRELOAD_COUNT,
+    offset: pageParam * PRELOAD_COUNT,
     sortBy: { column: 'created_at', order: 'desc' },
   });
 

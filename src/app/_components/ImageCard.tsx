@@ -2,12 +2,16 @@ import { ImageType } from '@/lib/types';
 import Image from 'next/image';
 import { FunctionComponent, HTMLProps } from 'react';
 
-type ImageCardProps = ImageType & HTMLProps<HTMLDivElement>;
+type ImageCardProps = ImageType &
+  HTMLProps<HTMLDivElement> & {
+    priority?: boolean;
+  };
 
 const ImageCard: FunctionComponent<ImageCardProps> = ({
   url,
   name,
   mimetype,
+  priority = false,
 }) => {
   let contentNode = null;
 
@@ -32,6 +36,7 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
         alt={name}
         width={150}
         height={150}
+        loading={priority ? 'eager' : 'lazy'}
       />
     );
   }

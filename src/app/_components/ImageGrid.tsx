@@ -6,6 +6,7 @@ import { useInView } from 'react-intersection-observer';
 import ImageCard from './ImageCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
+import { PRELOAD_COUNT } from '@/lib/constants';
 
 const IMAGE_GRID_STYLES =
   'relative z-10 grid grid-cols-3 gap-1 py-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4';
@@ -46,7 +47,7 @@ export default function ImageGrid() {
   if (status === 'pending') {
     return (
       <div className={IMAGE_GRID_STYLES}>
-        {Array.from({ length: 12 }).map((_, key) => (
+        {Array.from({ length: PRELOAD_COUNT }).map((_, key) => (
           <Skeleton key={key} className="aspect-square w-full" />
         ))}
       </div>
@@ -60,11 +61,17 @@ export default function ImageGrid() {
   return (
     <>
       <div className={IMAGE_GRID_STYLES}>
-        {data.pages.map((page, key) => (
-          <Fragment key={key}>
+        {data.pages.map((page, currentPageId) => (
+          <Fragment key={currentPageId}>
             {page &&
               page.length > 0 &&
-              page.map((image) => <ImageCard {...image} key={image.id} />)}
+              page.map((image) => (
+                <ImageCard
+                  priority={currentPageId === 1}
+                  {...image}
+                  key={image.id}
+                />
+              ))}
           </Fragment>
         ))}
       </div>

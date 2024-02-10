@@ -1,5 +1,5 @@
 import { ImageType } from './types';
-import { supabase } from './api';
+import { supabase } from './db';
 
 export const isVideo = (file: ImageType | null): boolean =>
   (file && file?.mimetype?.includes('video')) || false;

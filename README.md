@@ -8,6 +8,7 @@ This is a simple photo/video sharing app for my wedding. It's built with Next.js
 # To setup DB and fetch data
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_PRELOAD_COUNT=
 
 # For auth secret run this bash command: `openssl rand -base64 32`
 AUTH_SECRET=
