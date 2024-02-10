@@ -31,8 +31,11 @@ const UploadButton = () => {
       if (!event.target.files?.length) throw new Error('No File provided');
 
       const files = Array.from(event.target.files);
-      const res = await resumableUploadFile(event.target.files[0]);
-      // console.log(res);
+
+      for (const file of files) {
+        const res = await resumableUploadFile(file);
+        // console.log(res);
+      }
     } catch (error) {
       console.error(error);
     } finally {
