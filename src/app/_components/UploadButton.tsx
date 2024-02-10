@@ -12,8 +12,8 @@ const UploadButton = () => {
 
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     try {
-      setIsLoading(true);
       if (!event.target.files?.length) throw new Error('No File provided');
+      setIsLoading(true);
 
       const files = Array.from(event.target.files);
 
