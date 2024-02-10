@@ -11,21 +11,6 @@ const UploadButton = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    // uploadFile(event.target.files[0])
-    //   .then((res) => {
-    //     if (res) {
-    //       //   addImage(res); ---> TODO: server action to upload image
-
-    //       toast.success('Obrázek byl úspěšně nahrán');
-    //       setIsLoading(false);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //     toast.error('Něco se pokazilo, zkuste to prosím znovu');
-    //     setIsLoading(false);
-    //   });
-
     try {
       setIsLoading(true);
       if (!event.target.files?.length) throw new Error('No File provided');
