@@ -1,6 +1,7 @@
 import { ImageType } from './types';
 import { supabase } from './db';
 import * as tus from 'tus-js-client';
+import { toast } from 'sonner';
 
 export const isVideo = (file: ImageType | null): boolean =>
   (file && file?.mimetype?.includes('video')) || false;
@@ -32,11 +33,13 @@ export async function uploadFile(file: File): Promise<ImageType | null> {
 }
 
 export async function resumableUploadFile(file: File) {
+  const toastId = toast.loading('Nahrávám: 0%');
   return new Promise((resolve, reject) => {
     const upload = new tus.Upload(file, {
       endpoint: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/upload/resumable`,
       retryDelays: [0, 3000, 5000, 10000, 20000],
       uploadDataDuringCreation: true,
+      removeFingerprintOnSuccess: true,
       headers: {
         'Authorization': `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
         'x-upsert': 'true'
@@ -48,16 +51,23 @@ export async function resumableUploadFile(file: File) {
       },
       chunkSize: 6 * 1024 * 1024, // NOTE: it must be set to 6MB (for now) do not change it
       onError: function (error) {
-        console.log('Failed because: ' + error)
+        console.log('Upload failed: ' + error)
+        toast.error('Něco se pokazilo, zkuste to prosím znovu', {
+          id: toastId
+        });
         reject(error)
       },
       onProgress: function (bytesUploaded, bytesTotal) {
-        var percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2)
-        console.log(bytesUploaded, bytesTotal, percentage + '%')
+        const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(0);
+        toast.loading(`Nahrávám: ${percentage}%`, {
+          id: toastId
+        })
       },
       onSuccess: function () {
-        console.log(upload)
-        resolve(true);
+        toast.success('Soubor byl úspěšně nahrán', {
+          id: toastId
+        });
+        resolve(upload);
       },
     });
 

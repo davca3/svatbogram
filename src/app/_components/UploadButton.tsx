@@ -10,10 +10,7 @@ import { toast } from 'sonner';
 const UploadButton = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
-    setIsLoading(true);
-    if (!event.target.files?.length) throw new Error('No Image provided');
-
+  const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     // uploadFile(event.target.files[0])
     //   .then((res) => {
     //     if (res) {
@@ -29,17 +26,18 @@ const UploadButton = () => {
     //     setIsLoading(false);
     //   });
 
-    resumableUploadFile(event.target.files[0]).then((res) => {
-        if (res) {
-          toast.success('Obrázek byl úspěšně nahrán');
-          setIsLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error('Něco se pokazilo, zkuste to prosím znovu');
-        setIsLoading(false);
-      });
+    try {
+      setIsLoading(true);
+      if (!event.target.files?.length) throw new Error('No File provided');
+
+      const files = Array.from(event.target.files);
+      const res = await resumableUploadFile(event.target.files[0]);
+      // console.log(res);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
