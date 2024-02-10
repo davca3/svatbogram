@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import '../components/globals.css';
 import Header from './_components/Header';
 import { inter } from '@/components/fonts';
-import Providers from '@/lib/provider';
+import Providers from '@/lib/Provider';
 import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
