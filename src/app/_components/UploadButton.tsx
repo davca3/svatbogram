@@ -1,33 +1,43 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { uploadFile } from '@/lib/helpers';
+import { resumableUploadFile, uploadFile } from '@/lib/helpers';
 import { Loader2Icon, PlusIcon } from 'lucide-react';
 
 import { ChangeEvent, useState } from 'react';
-import { toast } from 'sonner';
+import { toast, ToastT } from 'sonner';
 
 const UploadButton = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     setIsLoading(true);
-    if (!event.target.files?.length) throw new Error('No Image provided');
+    const toastId = toast.loading('Nahrávám...');
 
-    uploadFile(event.target.files[0])
-      .then((res) => {
-        if (res) {
-          //   addImage(res); ---> TODO: server action to upload image
+    const uploadFile = async (file: File, index: number, totalFiles: number, toastId: ToastT["id"]) => {
+      try {
+        await resumableUploadFile(file, (percentage: number) =>
+          toast.loading(`Nahrávám ${index + 1} z ${totalFiles} ${totalFiles > 1 ? 'souborů' : 'soubor'}: ${percentage}%`, { id: toastId })
+        );
+      } catch (error) {
+        throw error;
+      }
+    }
 
-          toast.success('Obrázek byl úspěšně nahrán');
-          setIsLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error('Něco se pokazilo, zkuste to prosím znovu');
-        setIsLoading(false);
-      });
+    try {
+      if (!event.target.files?.length) throw new Error('Nebyly vybrány žádné soubory k nahrání.');
+      const files = Array.from(event.target.files);
+
+      for (let index = 0; index < files.length; index++) {
+        await uploadFile(files[index], index, files.length, toastId);
+      }
+      toast.success(`Soubory byly úspěšně nahrány`, { id: toastId, duration: 3000 });
+    } catch (error) {
+      console.error(error);
+      toast.error(`Během nahrávání souboru došlo k chybě: ${(error as any).message}`, { id: toastId, duration: 20000 });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -45,6 +55,8 @@ const UploadButton = () => {
         type="file"
         className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
         onChange={handleUpload}
+        accept='image/*, video/*'
+        multiple
       />
     </div>
   );
