@@ -1,5 +1,6 @@
 import { ImageType } from '@/lib/types';
 import Image from 'next/image';
+import Link from 'next/link';
 import { FunctionComponent, HTMLProps } from 'react';
 
 type ImageCardProps = ImageType &
@@ -11,6 +12,7 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
   url,
   name,
   mimetype,
+  id = '1',
   priority = false,
 }) => {
   let contentNode = null;
@@ -42,7 +44,11 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
     );
   }
 
-  return <div className="">{contentNode}</div>;
+  return (
+    <Link href={`/photos/${id}`} passHref prefetch={false}>
+      {contentNode}
+    </Link>
+  );
 };
 
 export default ImageCard;
