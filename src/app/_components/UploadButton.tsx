@@ -11,10 +11,7 @@ const UploadButton = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files?.length) throw new Error('No File provided');
     setIsLoading(true);
-
-    const files = Array.from(event.target.files);
     const toastId = toast.loading('Nahrávám...');
 
     const uploadFile = async (file: File, index: number, totalFiles: number, toastId: ToastT["id"]) => {
@@ -28,6 +25,9 @@ const UploadButton = () => {
     }
 
     try {
+      if (!event.target.files?.length) throw new Error('Nebyly vybrány žádné soubory k nahrání.');
+      const files = Array.from(event.target.files);
+
       for (let index = 0; index < files.length; index++) {
         await uploadFile(files[index], index, files.length, toastId);
       }
