@@ -11,7 +11,7 @@ const Header: FunctionComponent = async () => {
   const authFunction = await auth();
 
   return (
-    <div className="sticky top-0 z-50 h-16 bg-primary">
+    <div className="sticky top-0 z-50 h-16 bg-primary w-screen overflow-hidden">
       <div className="container mx-auto flex h-full items-center justify-between gap-4 p-4 text-white">
         {/* title */}
         <Link href="/">
