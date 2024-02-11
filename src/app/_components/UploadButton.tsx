@@ -16,11 +16,20 @@ const UploadButton = () => {
 
     const uploadFiles = async (files: File[], toastId: ToastT["id"]) => {
       try {
-        for (let index = 0; index < files.length; index++) {
-          await resumableUploadFile(files[index], (percentage: number) =>
-            toast.loading(`Nahrávám ${index + 1} z ${files.length} ${files.length > 1 ? 'souborů' : 'soubor'}: ${percentage}%`, { id: toastId })
-          );
-        }
+        let uploadedFiles = 0;
+        let uploadProgress = 0;
+        let progressArray = new Array(files.length).fill(0);
+
+        await Promise.all(files.map(async (file, index) => {
+          await resumableUploadFile(file, (progress) => {
+            progressArray[index] = progress;
+            uploadProgress = progressArray.reduce((a, b) => a + b, 0) / files.length;
+            toast.loading(`Nahráno ${uploadedFiles} z ${files.length} souborů: ${uploadProgress.toFixed(0)}%`, { id: toastId });
+          }).then(() => {
+            uploadedFiles++;
+            toast.loading(`Nahráno ${uploadedFiles} z ${files.length} souborů: ${uploadProgress.toFixed(0)}%`, { id: toastId });
+          });
+        }));
       } catch (error) {
         throw error;
       }
