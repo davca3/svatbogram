@@ -14,11 +14,13 @@ const UploadButton = () => {
     setIsLoading(true);
     const toastId = toast.loading('Nahrávám...');
 
-    const uploadFile = async (file: File, index: number, totalFiles: number, toastId: ToastT["id"]) => {
+    const uploadFiles = async (files: File[], toastId: ToastT["id"]) => {
       try {
-        await resumableUploadFile(file, (percentage: number) =>
-          toast.loading(`Nahrávám ${index + 1} z ${totalFiles} ${totalFiles > 1 ? 'souborů' : 'soubor'}: ${percentage}%`, { id: toastId })
-        );
+        for (let index = 0; index < files.length; index++) {
+          await resumableUploadFile(files[index], (percentage: number) =>
+            toast.loading(`Nahrávám ${index + 1} z ${files.length} ${files.length > 1 ? 'souborů' : 'soubor'}: ${percentage}%`, { id: toastId })
+          );
+        }
       } catch (error) {
         throw error;
       }
@@ -27,10 +29,7 @@ const UploadButton = () => {
     try {
       if (!event.target.files?.length) throw new Error('Nebyly vybrány žádné soubory k nahrání.');
       const files = Array.from(event.target.files);
-
-      for (let index = 0; index < files.length; index++) {
-        await uploadFile(files[index], index, files.length, toastId);
-      }
+      await uploadFiles(files, toastId);
       toast.success(`Soubory byly úspěšně nahrány`, { id: toastId, duration: 3000 });
     } catch (error) {
       console.error(error);
