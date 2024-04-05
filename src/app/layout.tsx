@@ -12,9 +12,10 @@ export const metadata: Metadata = {
   description: 'Svatební aplikace pro fotky a videa',
   icons: {
     icon: 'https://budemetretinovi.cz/favicon/favicon-32x32.png',
-    apple: 'https://budemetretinovi.cz/favicon/apple-touch-icon.png',
+    apple: '/apple-touch-icon.png',
   },
   authors: [{ name: 'David Třetina' }, { name: 'Daniel Neuman' }],
+  manifest: '/manifest.json',
 };
 
 export const viewport: Viewport = {
