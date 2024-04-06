@@ -66,7 +66,7 @@ export default function ImageGrid() {
   }
 
   return (
-    <>
+    <div className='overflow-scroll pb-safe'>
       {/* Image grid */}
       <div className={IMAGE_GRID_STYLES}>
         {/* Data is paginated, so we need to map over the pages */}
@@ -99,6 +99,6 @@ export default function ImageGrid() {
               : 'Už jsem načetl všechny obrázky'}
         </Button>
       </div>
-    </>
+    </div>
   );
 }

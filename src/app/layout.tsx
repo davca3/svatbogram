@@ -15,14 +15,16 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   authors: [{ name: 'David Třetina' }, { name: 'Daniel Neuman' }],
-  manifest: '/manifest.json',
+  manifest: '/manifest.json'
 };
 
 export const viewport: Viewport = {
   themeColor: '#6B7557',
+  colorScheme: 'light',
   initialScale: 1,
   width: 'device-width',
   height: 'device-height',
+  viewportFit: 'cover'
 };
 
 export default function RootLayout({
@@ -32,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="cs-cz">
-      <body className={`${inter.className} bg-white`}>
+      <body className={`${inter.className} bg-white h-screen w-screen`}>
         <Providers>
           <Header />
 
