@@ -34,11 +34,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="cs-cz">
-      <body className={`${inter.className} bg-white h-screen w-screen`}>
+      <body className={`${inter.className} bg-white min-h-screen h-auto w-screen overflow-auto`}>
         <Providers>
           <Header />
 
-          <div className="container mx-auto bg-cool-white">
+          <div className="container mx-auto bg-cool-white overflow-scroll">
             {children}
             <Toaster />
           </div>
