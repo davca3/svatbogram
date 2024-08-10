@@ -17,19 +17,19 @@ const UploadButton = () => {
     const uploadFiles = async (files: File[], toastId: ToastT["id"]) => {
       try {
         let uploadedFiles = 0;
-        let uploadProgress = 0;
         let progressArray = new Array(files.length).fill(0);
 
-        await Promise.all(files.map(async (file, index) => {
-          await resumableUploadFile(file, (progress) => {
+        await Promise.all(files.map((file, index) => 
+          resumableUploadFile(file, (progress) => {
             progressArray[index] = progress;
-            uploadProgress = progressArray.reduce((a, b) => a + b, 0) / files.length;
+            const uploadProgress = progressArray.reduce((a, b) => a + b, 0) / files.length;
             toast.loading(`Nahráno ${uploadedFiles} z ${files.length} souborů: ${uploadProgress.toFixed(0)}%`, { id: toastId });
           }).then(() => {
             uploadedFiles++;
+            const uploadProgress = progressArray.reduce((a, b) => a + b, 0) / files.length;
             toast.loading(`Nahráno ${uploadedFiles} z ${files.length} souborů: ${uploadProgress.toFixed(0)}%`, { id: toastId });
-          });
-        }));
+          })
+        ));
       } catch (error) {
         throw error;
       }
@@ -38,11 +38,14 @@ const UploadButton = () => {
     try {
       if (!event.target.files?.length) throw new Error('Nebyly vybrány žádné soubory k nahrání.');
       const files = Array.from(event.target.files);
-      await uploadFiles(files, toastId);
-      toast.success(`Soubory byly úspěšně nahrány`, { id: toastId, duration: 3000 });
+      if (files.length > 10) throw new Error('Najednou lze nahrát maximálně 10 souborů.');
+      uploadFiles(files, toastId)
+        .then(() => {
+          toast.success(`Soubory byly úspěšně nahrány`, { id: toastId, duration: 3000 });
+        });
     } catch (error) {
       console.error(error);
-      toast.error(`Během nahrávání souboru došlo k chybě: ${(error as any).message}`, { id: toastId, duration: 20000 });
+      toast.error(`Během nahrávání souborů došlo k chybě: ${(error as any).message}`, { id: toastId, duration: 20000 });
     } finally {
       setIsLoading(false);
     }

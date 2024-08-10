@@ -5,6 +5,7 @@ import Header from './_components/Header';
 import { inter } from '@/components/fonts';
 import Providers from '@/lib/Provider';
 import { Toaster } from '@/components/ui/sonner';
+import Head from 'next/head';
 
 export const metadata: Metadata = {
   title: 'Svatbogram',
@@ -34,6 +35,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="cs-cz">
+      <Head>
+        <link rel="preload" href="/api/uploadthing" as="fetch" crossOrigin="anonymous" />
+      </Head>
       <body className={`${inter.className} bg-white min-h-screen h-auto w-screen overflow-auto`}>
         <Providers>
           <Header />

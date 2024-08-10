@@ -2,7 +2,16 @@ import { ImageType } from '@/lib/types';
 import Image from 'next/image';
 import { FunctionComponent, HTMLProps } from 'react';
 
-type ImageCardProps = ImageType &
+type ListFilesReturnType = {
+  name: string;
+  url: string;
+  key: string;
+  customId: string | null;
+  status: "Deletion Pending" | "Failed" | "Uploaded" | "Uploading";
+  id: string;
+};
+
+type ImageCardProps = ListFilesReturnType & 
   HTMLProps<HTMLDivElement> & {
     priority?: boolean;
   };
@@ -10,15 +19,17 @@ type ImageCardProps = ImageType &
 const ImageCard: FunctionComponent<ImageCardProps> = ({
   url,
   name,
-  mimetype,
   priority = false,
 }) => {
+  
   let contentNode = null;
+  const imageUrl = url;
+  const isVideo = name?.includes('mp4') || name?.includes('webm') || name?.includes('mov');
 
-  if (mimetype.includes('video')) {
+  if (isVideo) {
     contentNode = (
       <video
-        src={url + '#t=0.1'}
+        src={`${imageUrl}#t=0.1`}
         preload="metadata"
         muted
         playsInline
@@ -31,9 +42,9 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
     contentNode = (
       <Image
         className="aspect-square h-full w-full object-cover object-center"
-        src={`${url}?w=300&h=400`}
-        blurDataURL={`${url}?w=30&h=40&q=1`}
-        alt={name}
+        src={`${imageUrl}`}
+        blurDataURL={`${imageUrl}?w=30&h=40&q=1`}
+        alt={name || 'fotka'}
         width={150}
         height={150}
         priority={priority}

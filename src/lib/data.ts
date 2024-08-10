@@ -6,37 +6,21 @@ import { ImageType, ImageTypeParser } from './types';
 export const fetchInfiniteImageList = async ({ pageParam = 0 }) => {
   try {
     // Fetch images from the database
-    const { data, error } = await supabase.storage.from('images').list('', {
-      limit: PRELOAD_COUNT, // Fetch X images at a time
-      offset: pageParam * PRELOAD_COUNT, // Offset the images based on the page number
-      sortBy: { column: 'created_at', order: 'desc' }, // Sort the images by the created_at column -- newest first
+    const data = await fetch('https://api.uploadthing.com/v6/listFiles', {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'x-uploadthing-api-key': String(process.env.NEXT_PUBLIC_UPLOADTHING_SECRET)
+      }),
+      body: JSON.stringify({ limit: PRELOAD_COUNT, offset: pageParam * PRELOAD_COUNT })
     });
 
     // If there's an error, throw an error
-    if (error) {
+    if (!data || !data.ok) {
       throw new Error();
     }
 
-    // Parse the data to make sure it's in the correct format
-    const parsedResult = ImageTypeParser.safeParse(data);
-
-    // If the data is not in the correct format, throw an error
-    if (!parsedResult.success) {
-      console.error(
-        '[Database Error] Failed to parse data:',
-        parsedResult.error,
-      );
-      throw new Error('Failed to parse data');
-    }
-
-    // Map the data to add the URL and mimetype to each image
-    const res: ImageType[] = parsedResult.data.map((image) => ({
-      ...image,
-      url: getFileUrl(image.name),
-      mimetype: image.metadata.mimetype,
-    }));
-
-    return res;
+    return data.json();
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch Images');

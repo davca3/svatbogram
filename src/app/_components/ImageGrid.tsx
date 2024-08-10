@@ -70,14 +70,15 @@ export default function ImageGrid() {
       {/* Image grid */}
       <div className={IMAGE_GRID_STYLES}>
         {/* Data is paginated, so we need to map over the pages */}
-        {data.pages.map((page, currentPageId) => (
+
+        {data.pages.map((page: any, currentPageId: number) => (
           <Fragment key={currentPageId}>
             {page &&
-              page.length > 0 &&
-              page.map((image) => (
+              page.files.map((image: any) => (
                 <ImageCard
                   priority={currentPageId === 1}
                   {...image}
+                  url={`https://utfs.io/f/${image.key}`}
                   key={image.id}
                 />
               ))}
