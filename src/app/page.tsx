@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import ImageGrid from './_components/ImageGrid';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export default async function Home() {
+export default function Home() {
   return (
     <main>
       {/* Suspense client for bundle load, probably never will be seen. */}

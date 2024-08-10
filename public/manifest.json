@@ -1,0 +1,21 @@
+{
+  "name": "Svatbogram",
+  "short_name": "Svatbogram",
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#6B7557",
+  "icons": [
+    {
+      "src": "https://budemetretinovi.cz/favicon/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

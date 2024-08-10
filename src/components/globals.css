@@ -72,5 +72,12 @@
   }
   body {
     @apply bg-background text-foreground;
+    height: -webkit-fill-available;
   }
+  html {
+		height: -webkit-fill-available;
+	}
+	#root {
+		height: -webkit-fill-available;
+	}
 }
