@@ -19,11 +19,10 @@ type ImageCardProps = ListFilesReturnType &
 
 const ImageCard: FunctionComponent<ImageCardProps> = ({
   url,
-  id,
   name,
   priority = false,
 }) => {
-  
+
   let contentNode = null;
   const imageUrl = "https://utfs.io/f/" + url;
   const isVideo = name?.includes('mp4') || name?.includes('webm') || name?.includes('mov');
@@ -56,7 +55,7 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
   }
 
   return (
-    <Link href={`/photos/${url}`} passHref prefetch={false}>
+    <Link href={`/photos/${url}`} prefetch={false}>
       {contentNode}
     </Link>
   );

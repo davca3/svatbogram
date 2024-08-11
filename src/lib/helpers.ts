@@ -4,34 +4,34 @@ import * as tus from 'tus-js-client';
 import { toast } from 'sonner';
 import { uploadFiles } from '@/lib/reactUploadThing';
 
-export const isVideo = (file: ImageType | null): boolean =>
-  (file && file?.mimetype?.includes('video')) || false;
+export const isVideo = (photoId: string): boolean => 
+  photoId?.includes('mp4') || photoId?.includes('webm') || photoId?.includes('mov');
 
-export const getFileUrl = (fileName: string): string =>
-  supabase.storage.from('images').getPublicUrl(fileName).data.publicUrl;
+// export const getFileUrl = (fileName: string): string =>
+  // supabase.storage.from('images').getPublicUrl(fileName).data.publicUrl;
 
-export async function uploadFile(file: File): Promise<ImageType | null> {
-  const name = self.crypto.randomUUID();
+// export async function uploadFile(file: File): Promise<ImageType | null> {
+//   const name = self.crypto.randomUUID();
 
-  try {
-    const { data, error } = await supabase.storage
-      .from('images')
-      .upload(name, file);
+//   try {
+//     const { data, error } = await supabase.storage
+//       .from('images')
+//       .upload(name, file);
 
-    const uploadedImage: ImageType = {
-      id: crypto.randomUUID(),
-      url: getFileUrl(name),
-      mimetype: file.type,
-      name,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
+//     const uploadedImage: ImageType = {
+//       id: crypto.randomUUID(),
+//       url: getFileUrl(name),
+//       mimetype: file.type,
+//       name,
+//       created_at: new Date().toISOString(),
+//       updated_at: new Date().toISOString(),
+//     };
 
-    return uploadedImage;
-  } catch (error) {
-    throw new Error(`Failed to upload file: ${(error as any).message}`);
-  }
-}
+//     return uploadedImage;
+//   } catch (error) {
+//     throw new Error(`Failed to upload file: ${(error as any).message}`);
+//   }
+// }
 
 export async function resumableUploadFile(file: File, onProgressCallback?: (percentage: number) => void) {
   return new Promise((resolve, reject) => {

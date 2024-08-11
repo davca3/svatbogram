@@ -74,14 +74,16 @@ export default function ImageGrid() {
         {data.pages.map((page: any, currentPageId: number) => (
           <Fragment key={currentPageId}>
             {page &&
-              page.files.map((image: any) => (
-                <ImageCard
-                  priority={currentPageId === 1}
-                  {...image}
-                  url={image.key}
-                  key={image.id}
-                />
-              ))}
+              page.files.map((image: any) => {
+                if(image.status === "Uploaded") {
+                  return <ImageCard
+                    priority={currentPageId === 1}
+                    {...image}
+                    url={image.key}
+                    key={image.id}
+                  />
+                }
+              })}
           </Fragment>
         ))}
       </div>

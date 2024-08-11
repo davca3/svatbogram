@@ -1,7 +1,4 @@
-import { supabase } from './db';
 import { PRELOAD_COUNT } from './constants';
-import { getFileUrl } from './helpers';
-import { ImageType, ImageTypeParser } from './types';
 
 export const fetchInfiniteImageList = async ({ pageParam = 0 }) => {
   try {

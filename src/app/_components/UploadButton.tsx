@@ -1,14 +1,17 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { resumableUploadFile, uploadFile } from '@/lib/helpers';
+import { resumableUploadFile } from '@/lib/helpers';
 import { Loader2Icon, PlusIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import { ChangeEvent, useState } from 'react';
 import { toast, ToastT } from 'sonner';
 
 const UploadButton = () => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     setIsLoading(true);
@@ -39,9 +42,10 @@ const UploadButton = () => {
       if (!event.target.files?.length) throw new Error('Nebyly vybrány žádné soubory k nahrání.');
       const files = Array.from(event.target.files);
       if (files.length > 10) throw new Error('Najednou lze nahrát maximálně 10 souborů.');
+
       uploadFiles(files, toastId)
         .then(() => {
-          toast.success(`Soubory byly úspěšně nahrány`, { id: toastId, duration: 3000 });
+          toast.success(`Soubory byly úspěšně nahrány`, { id: toastId, duration: 10000, action: { label: 'Aktualizovat', onClick: () => location.reload()  } });
         });
     } catch (error) {
       console.error(error);
