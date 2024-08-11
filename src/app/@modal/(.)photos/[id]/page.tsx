@@ -1,5 +1,6 @@
 import { getImageModal } from '@/lib/actions';
 import Modal from './Modal';
+import Image from 'next/image';
 
 export default async function PhotoModal({
   params: { id: photoId },
@@ -10,8 +11,12 @@ export default async function PhotoModal({
 
   return (
     <Modal>
-      Intersepted modal {photoId}
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <Image
+        src={"https://utfs.io/f/" + photoId}
+        alt='fotka'
+        height={500}
+        width={500}
+      />
     </Modal>
   );
 }

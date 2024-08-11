@@ -25,7 +25,7 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
 }) => {
   
   let contentNode = null;
-  const imageUrl = url;
+  const imageUrl = "https://utfs.io/f/" + url;
   const isVideo = name?.includes('mp4') || name?.includes('webm') || name?.includes('mov');
 
   if (isVideo) {
@@ -56,7 +56,7 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
   }
 
   return (
-    <Link href={`/photos/${id}`} passHref prefetch={false}>
+    <Link href={`/photos/${url}`} passHref prefetch={false}>
       {contentNode}
     </Link>
   );

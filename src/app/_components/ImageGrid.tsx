@@ -78,7 +78,7 @@ export default function ImageGrid() {
                 <ImageCard
                   priority={currentPageId === 1}
                   {...image}
-                  url={`https://utfs.io/f/${image.key}`}
+                  url={image.key}
                   key={image.id}
                 />
               ))}
