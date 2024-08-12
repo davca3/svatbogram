@@ -46,9 +46,14 @@ export default async function PhotoModal({
       <div className={`flex flex-wrap p-1 justify-end gap-2`}>
         {authFunc && <DeleteButton photoId={photoId} />}
         <DownloadButton photoId={photoId} />
-        {/* Zkopirovat odkaz */}
         <CopyButton />
       </div>
+      {/* <div className='flex justify-between mt-4'>
+        <Button onClick={}>
+
+        </Button>
+
+      </div> */}
     </Modal>
   );
 }
