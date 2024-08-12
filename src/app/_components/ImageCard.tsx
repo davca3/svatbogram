@@ -1,5 +1,6 @@
 import { ImageType } from '@/lib/types';
 import Image from 'next/image';
+import Link from 'next/link';
 import { FunctionComponent, HTMLProps } from 'react';
 
 type ListFilesReturnType = {
@@ -21,9 +22,9 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
   name,
   priority = false,
 }) => {
-  
+
   let contentNode = null;
-  const imageUrl = url;
+  const imageUrl = "https://utfs.io/f/" + url;
   const isVideo = name?.includes('mp4') || name?.includes('webm') || name?.includes('mov');
 
   if (isVideo) {
@@ -53,7 +54,11 @@ const ImageCard: FunctionComponent<ImageCardProps> = ({
     );
   }
 
-  return <div className="">{contentNode}</div>;
+  return (
+    <Link href={`/photos/${url}`} prefetch={false}>
+      {contentNode}
+    </Link>
+  );
 };
 
 export default ImageCard;

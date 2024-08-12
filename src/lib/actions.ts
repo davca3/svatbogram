@@ -1,6 +1,7 @@
 'use server';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+import { supabase } from './db';
 
 export async function authenticate(
   prevState: string | undefined,
@@ -20,3 +21,15 @@ export async function authenticate(
     throw error;
   }
 }
+
+export const getImageModal = async (imageId: string) => {
+  const { data } = await supabase
+    .from('images')
+    .select('*')
+    .eq('id', imageId)
+    .range(0, 1)
+    .order('created_at', { ascending: false })
+    .limit(3);
+
+  return data;
+};

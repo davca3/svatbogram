@@ -30,8 +30,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang="cs-cz">
@@ -44,6 +46,7 @@ export default function RootLayout({
 
           <div className="container mx-auto bg-cool-white overflow-scroll">
             {children}
+            {modal}
             <Toaster />
           </div>
         </Providers>
