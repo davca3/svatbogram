@@ -1,4 +1,5 @@
 import { PRELOAD_COUNT } from './constants';
+import process from 'process';
 
 export const fetchInfiniteImageList = async ({ pageParam = 0 }) => {
   try {
