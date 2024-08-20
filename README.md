@@ -1,6 +1,6 @@
 # Svatbogram
 
-This is a simple photo/video sharing app for my wedding. It's built with Next.js and Supabase. Can be used for any event, not just weddings.
+This is a simple photo/video sharing app for my wedding. It's built with Next.js and ~Supabase~ UploadThing. Can be used for any event, not just weddings.
 
 ## .env requirements
 
@@ -22,14 +22,9 @@ PASSWORD=
 ## TODOLIST
 
 ```md
-⚪️ Multiple file upload
 ⚪️ Selecting multiple files and ability to download them
 ⚪️ Download all files - maybe make it with selecting feature
-⚪️ GOD MODE (admin panel) - Delete files and other stuff
 ⚪️ Next/Prev buttons for files
-⚪️ Infinite scroll and lower the amount of files loaded at once
-⚪️ Add presentation mode
-⚪️ Sharing option?
 ```
 
 ## Authors
